@@ -1,0 +1,46 @@
+{
+  "handle": "@seuperfil",
+  "slides": [
+    {
+      "type": "cover",
+      "eyebrow": "5 dicas",
+      "title": "Produtividade sem esforço",
+      "subtitle": "Arrasta pro lado →"
+    },
+    {
+      "type": "tip",
+      "number": 1,
+      "title": "Comece pelo mais difícil",
+      "body": "Faça a tarefa mais chata do dia logo cedo, antes que a força de vontade acabe."
+    },
+    {
+      "type": "tip",
+      "number": 2,
+      "title": "Bloqueie o calendário",
+      "body": "Reserve blocos de foco no seu calendário como se fossem reuniões inadiáveis."
+    },
+    {
+      "type": "tip",
+      "number": 3,
+      "title": "Regra dos 2 minutos",
+      "body": "Se leva menos de 2 minutos, faça agora. Não deixe acumular pra depois."
+    },
+    {
+      "type": "tip",
+      "number": 4,
+      "title": "Um app, uma lista",
+      "body": "Centralize suas tarefas em um único lugar para não perder nada de vista."
+    },
+    {
+      "type": "tip",
+      "number": 5,
+      "title": "Revise no fim do dia",
+      "body": "Separe 5 minutos para revisar o que foi feito e planejar o dia seguinte."
+    },
+    {
+      "type": "cta",
+      "title": "Gostou das dicas?",
+      "body": "Salva esse post e me segue pra receber uma dica nova todo dia."
+    }
+  ]
+}
