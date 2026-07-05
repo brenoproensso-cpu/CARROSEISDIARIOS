@@ -1,6 +1,6 @@
 # CARROSEISDIARIOS
 
-Criação de carrosséis e posts para Instagram, gerados automaticamente em PNG a partir de um arquivo de conteúdo, com visual baseado no design system do Notion (ver `DESIGN.md`).
+Criação de carrosséis e posts para Instagram, gerados automaticamente em PNG a partir de um arquivo de conteúdo, com visual jurídico (preto/branco/laranja) — ver `DESIGN.md`.
 
 ## Como usar
 
@@ -9,26 +9,22 @@ Criação de carrosséis e posts para Instagram, gerados automaticamente em PNG 
    npm install
    ```
 
-2. Crie (ou edite) um arquivo de conteúdo em `content/`, seguindo o formato de `content/dicas-produtividade.json`:
-   ```json
-   {
-     "handle": "@seuperfil",
-     "slides": [
-       { "type": "cover", "eyebrow": "5 dicas", "title": "Seu título", "subtitle": "Arrasta pro lado →" },
-       { "type": "tip", "number": 1, "title": "Título da dica", "body": "Texto da dica." },
-       { "type": "cta", "title": "Gostou?", "body": "Salva e segue pra mais." }
-     ]
-   }
-   ```
-   Tipos de slide disponíveis: `cover` (capa), `tip` (dica numerada) e `cta` (encerramento).
+2. Crie (ou edite) um arquivo de conteúdo em `content/`, seguindo o formato de `content/direito-acidente.json`. O conteúdo é uma lista de `blocks` — ver os tipos disponíveis (`hero`, `grid`, `banner`, `note`, `footer`) em `DESIGN.md`.
 
 3. Gere as imagens:
-   ```
-   npm run generate -- content/dicas-produtividade.json
-   ```
 
-4. As imagens (1080x1350, formato retrato do Instagram) saem em `output/dicas-produtividade/slide-01.png`, `slide-02.png`, etc. — prontas para subir no carrossel.
+   **Post único** (uma imagem só, altura automática — igual a um post/story de feed):
+   ```
+   npm run generate:post -- content/direito-acidente.json
+   ```
+   Sai em `output/direito-acidente.png`.
+
+   **Carrossel** (um slide 1080x1350 por bloco, com paginação no canto):
+   ```
+   npm run generate -- content/direito-acidente.json
+   ```
+   Sai em `output/direito-acidente/slide-01.png`, `slide-02.png`, etc.
 
 ## Estilo visual
 
-O visual (cores, tipografia, espaçamento) segue os tokens em `DESIGN.md`, adaptados do design system do Notion. Para mudar o estilo (cores, fontes, etc.), edite o objeto `TOKENS` em `scripts/generate.js`.
+O visual (cores, tipografia, ícones, componentes) segue os tokens em `DESIGN.md`. Para mudar cores/fontes, edite `TOKENS` em `scripts/juridico.js`; para adicionar um bloco ou ícone novo, veja a seção correspondente em `DESIGN.md`.

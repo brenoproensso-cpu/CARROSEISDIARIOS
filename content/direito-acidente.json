@@ -1,0 +1,47 @@
+{
+  "blocks": [
+    {
+      "type": "hero",
+      "icon": "injury",
+      "title": [
+        [{ "text": "Você tem" }],
+        [{ "text": "direito", "color": "accent" }],
+        [{ "text": "e nem sabe" }]
+      ],
+      "subtitle": "Um acidente pode te dar acesso **IMEDIATO** ao benefício, mesmo sem tempo de contribuição.",
+      "lawCitation": {
+        "text": "Lei 8.213/91, art. 26, II —",
+        "highlight": "dispensa carência"
+      }
+    },
+    {
+      "type": "grid",
+      "items": [
+        { "icon": "house", "title": "Acidente doméstico", "description": "Uma queda em casa também conta." },
+        { "icon": "car", "title": "Acidente de trânsito", "description": "Independe de culpa ou local." },
+        { "icon": "ball", "title": "Acidente esportivo ou de lazer", "description": "Vale mesmo fora do trabalho." },
+        { "icon": "briefcase", "title": "Acidente ou doença do trabalho", "description": "Também dispensam carência." }
+      ]
+    },
+    {
+      "type": "banner",
+      "icon": "shieldCheck",
+      "title": [
+        [{ "text": "Seu direito," }],
+        [{ "text": "sem carência.", "color": "accent" }]
+      ],
+      "description": "Em casos de acidente, você tem direito ao auxílio-doença desde o primeiro dia."
+    },
+    {
+      "type": "note",
+      "icon": "calendarSlash",
+      "text": "A carência de 12 contribuições só vale para doença comum — **não para acidentes de qualquer natureza**."
+    },
+    {
+      "type": "footer",
+      "title": "Precisa de orientação?",
+      "subtitle": "Fale com um advogado previdenciarista.",
+      "handle": "@seuperfil.adv"
+    }
+  ]
+}

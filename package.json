@@ -1,11 +1,12 @@
 {
   "name": "carroseisdiarios",
   "version": "1.0.0",
-  "description": "Gerador de carrosséis diários para Instagram, com estilo baseado no DESIGN.md do Notion",
+  "description": "Gerador de carrosséis e posts jurídicos para Instagram",
   "type": "module",
   "private": true,
   "scripts": {
-    "generate": "node scripts/generate.js"
+    "generate": "node scripts/generate.js",
+    "generate:post": "node scripts/generate-post.js"
   },
   "devDependencies": {
     "playwright": "^1.47.0"

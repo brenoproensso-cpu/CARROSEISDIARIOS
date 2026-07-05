@@ -1,43 +1,53 @@
-# DESIGN.md — Editorial elegante
+# DESIGN.md — Jurídico (preto / branco / laranja)
 
-> Estilo próprio do gerador em `scripts/generate.js`, inspirado em layouts de revista/editorial (não é um dos arquivos originais do [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md), mas segue a mesma ideia de documentar tokens de design em markdown).
-> Mudar um valor aqui não altera o gerador automaticamente — os tokens estão duplicados como CSS em `scripts/generate.js` para manter a geração de imagem sem dependências externas.
+> Estilo extraído por amostragem de cor e observação direta de uma referência enviada pelo usuário (post jurídico no Instagram). Os ícones são desenhados do zero no mesmo espírito de traço/linha da referência, não são cópia pixel a pixel dela.
+> Mudar um valor aqui não altera o gerador automaticamente — os tokens estão duplicados como CSS em `scripts/juridico.js` para manter a geração de imagem sem dependências externas.
 
 ```yaml
 colors:
-  cream: "#f7f4ee"      # fundo das páginas internas (slides de dica)
-  ink: "#1c1a17"        # fundo da capa/contracapa; texto principal sobre creme
-  ink-soft: "#3a352c"   # corpo de texto sobre creme
-  accent: "#a6462c"     # terracota — kicker, numeral em marca d'água, marca do rodapé
-  cream-muted: "rgba(247,244,238,0.7)"  # texto secundário sobre fundo escuro
-  rule: "#d8d2c4"        # linhas finas sobre creme
-  rule-on-dark: "rgba(247,244,238,0.25)"  # linhas finas sobre tinta
+  ink: "#0d0d0d"       # texto principal, fundo das caixas pretas (lei, banner, rodapé)
+  canvas: "#ffffff"    # fundo da página
+  accent: "#ff5a12"    # laranja — palavra de destaque no título, highlight na citação de lei
+  border: "#e3e3e3"    # borda fina dos cards e da caixa de observação
+  on-ink-muted: "rgba(255,255,255,0.7)"   # texto secundário sobre fundo preto
+  on-ink-rule: "rgba(255,255,255,0.25)"   # linhas finas sobre fundo preto
 
 typography:
-  serif-display: "'Playfair Display', Georgia, 'Times New Roman', ui-serif, serif"   # títulos, subtítulo itálico e numeral em marca d'água
-  serif-body: "'Lora', Georgia, 'Times New Roman', ui-serif, serif"                  # parágrafos (mais legível em tamanho menor)
-  sans: "'Helvetica Neue', Helvetica, Arial, sans-serif"                             # kickers/rodapé (versalete)
-  title-cover: { size: 76px, weight: 700, font: serif-display }
-  title-tip:   { size: 46px, weight: 700, font: serif-display }
-  title-cta:   { size: 52px, weight: 700, font: serif-display }
-  body:        { size: 30px, weight: 400, lineHeight: 1.65, font: serif-body }
-  kicker:      { size: 20px, weight: 700, letterSpacing: 4px, uppercase: true, font: sans }
+  display: "Anton"      # títulos grandes em caixa alta (hero, banner, rodapé) — condensada, bem pesada
+  body: "Inter"         # parágrafos, cards, citação de lei, kicker
+  headline: { size: 74px, weight: 400 (Anton já é bold), transform: uppercase }
+  subtitle: { size: 26px, weight: 400 }
+  law-pill: { size: 22px, weight: 600 }
+  grid-title: { size: 21px, weight: 700 }
+  grid-desc: { size: 17px, weight: 400 }
+  banner-title: { size: 32px, transform: uppercase }
+  banner-desc: { size: 18px }
+  footer-title: { size: 40px, transform: uppercase }
 
 layout:
-  canvas: 1080x1350px   # formato retrato Instagram (4:5)
-  padding: 80px
-  frame: "moldura fina (1px) a 36px da borda, em todos os slides"
+  canvas-carrossel: 1080x1350px   # um bloco por slide, centralizado verticalmente
+  canvas-post: 1080px de largura, altura automática (todos os blocos empilhados)
+  padding: 64px laterais
 ```
 
-## Estrutura de cada tipo de slide
+## Blocos disponíveis (`content/*.json` → `blocks: [...]`)
 
-- **Capa** (`type: cover`): fundo `ink` (efeito "capa de revista"), kicker em `accent`, título serifado grande em creme, subtítulo itálico.
-- **Dica** (`type: tip`): fundo `cream`, número gigante em marca d'água (`accent`, opacidade baixa) no canto superior direito, kicker "DICA Nº XX", título serifado, corpo serifado em `ink-soft`.
-- **Encerramento** (`type: cta`): fundo `ink` novamente (bookend com a capa), kicker com o `@handle`, título e corpo serifados em creme.
-- Rodapé em todos os slides: paginação estilo revista (`01 — 07`) à esquerda + marquinha quadrada `accent` à direita, com uma linha fina acima.
+Cada item de `blocks` tem um `type` e vira um componente visual. Os mesmos blocos são usados tanto no post único (`generate:post`) quanto no carrossel (`generate`, um bloco por slide).
 
-Para trocar o estilo visual completo, edite o objeto `TOKENS` em `scripts/generate.js` (cores, fontes, tamanhos).
+- **`hero`** — título grande (linhas com trechos coloríveis via `color: "accent"`), subtítulo, ícone opcional no canto superior direito, e citação de lei (caixa preta com trecho em laranja).
+- **`grid`** — grade 2 colunas de cards (ícone + linha divisória + título + descrição). Use `items: [...]`.
+- **`banner`** — faixa preta de destaque: ícone + título (2 linhas, 2ª geralmente laranja) + descrição.
+- **`note`** — caixa com borda fina: ícone + texto (aceita `**negrito**`).
+- **`footer`** — caixa preta de encerramento: título grande, linha, subtítulo, ícone do Instagram + `@handle`.
+
+Texto em `subtitle`, `description`, `text` e `subtitle` do footer aceitam marcação simples:
+- `**texto**` → negrito
+- `{{texto}}` → negrito laranja (cor de destaque)
+
+## Ícones
+
+Ícones disponíveis em `ICONS` (`scripts/juridico.js`): `house`, `car`, `ball`, `briefcase`, `injury`, `shieldCheck`, `calendarSlash`, `instagram`. Para adicionar um novo, escreva um `<svg>` com `stroke="currentColor" fill="none"` no mesmo padrão dos existentes.
 
 ## Fontes
 
-As fontes (Playfair Display e Lora, subset latin — cobre acentuação em português) ficam em `scripts/fonts/*.woff2` e são embutidas como base64 diretamente no HTML gerado, então a geração de imagem funciona offline, sem precisar buscar fontes da internet.
+Anton e Inter (subset latin, cobre acentuação em português) ficam em `scripts/fonts/*.woff2`, embutidas como base64 — a geração funciona offline.
