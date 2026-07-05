@@ -1,9 +1,22 @@
 import { chromium } from "playwright";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const WIDTH = 1080;
 const HEIGHT = 1350;
+
+function fontDataUri(filename) {
+  const bytes = fs.readFileSync(path.join(__dirname, "fonts", filename));
+  return `data:font/woff2;base64,${bytes.toString("base64")}`;
+}
+
+const FONT_FILES = {
+  playfair: fontDataUri("PlayfairDisplay-latin.woff2"),
+  playfairItalic: fontDataUri("PlayfairDisplay-Italic-latin.woff2"),
+  lora: fontDataUri("Lora-latin.woff2"),
+};
 
 // Tokens do estilo "editorial elegante": serifada, paleta sóbria (creme/tinta/terracota).
 const TOKENS = {
@@ -14,7 +27,8 @@ const TOKENS = {
   creamMuted: "rgba(247, 244, 238, 0.7)",
   rule: "#d8d2c4",
   ruleOnDark: "rgba(247, 244, 238, 0.25)",
-  serif: "Georgia, 'Iowan Old Style', 'Times New Roman', ui-serif, serif",
+  serif: "'Playfair Display', Georgia, 'Times New Roman', ui-serif, serif",
+  serifBody: "'Lora', Georgia, 'Times New Roman', ui-serif, serif",
   sans: "'Helvetica Neue', Helvetica, Arial, sans-serif",
 };
 
@@ -24,6 +38,24 @@ function pad(n) {
 
 function baseStyles() {
   return `
+    @font-face {
+      font-family: 'Playfair Display';
+      font-style: normal;
+      font-weight: 400 700;
+      src: url(${FONT_FILES.playfair}) format('woff2');
+    }
+    @font-face {
+      font-family: 'Playfair Display';
+      font-style: italic;
+      font-weight: 400;
+      src: url(${FONT_FILES.playfairItalic}) format('woff2');
+    }
+    @font-face {
+      font-family: 'Lora';
+      font-style: normal;
+      font-weight: 400 500;
+      src: url(${FONT_FILES.lora}) format('woff2');
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       width: ${WIDTH}px;
@@ -76,9 +108,9 @@ function baseStyles() {
       font-weight: 700;
     }
     .body-serif {
-      font-family: ${TOKENS.serif};
-      font-size: 32px;
-      line-height: 1.6;
+      font-family: ${TOKENS.serifBody};
+      font-size: 30px;
+      line-height: 1.65;
     }
     .footer {
       display: flex;

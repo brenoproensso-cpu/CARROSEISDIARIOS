@@ -14,13 +14,14 @@ colors:
   rule-on-dark: "rgba(247,244,238,0.25)"  # linhas finas sobre tinta
 
 typography:
-  serif: "Georgia, 'Iowan Old Style', 'Times New Roman', ui-serif, serif"   # títulos e corpo
-  sans: "'Helvetica Neue', Helvetica, Arial, sans-serif"                    # kickers/rodapé (versalete)
-  title-cover: { size: 76px, weight: 700 }
-  title-tip:   { size: 46px, weight: 700 }
-  title-cta:   { size: 52px, weight: 700 }
-  body:        { size: 32px, weight: 400, lineHeight: 1.6 }
-  kicker:      { size: 20px, weight: 700, letterSpacing: 4px, uppercase: true }
+  serif-display: "'Playfair Display', Georgia, 'Times New Roman', ui-serif, serif"   # títulos, subtítulo itálico e numeral em marca d'água
+  serif-body: "'Lora', Georgia, 'Times New Roman', ui-serif, serif"                  # parágrafos (mais legível em tamanho menor)
+  sans: "'Helvetica Neue', Helvetica, Arial, sans-serif"                             # kickers/rodapé (versalete)
+  title-cover: { size: 76px, weight: 700, font: serif-display }
+  title-tip:   { size: 46px, weight: 700, font: serif-display }
+  title-cta:   { size: 52px, weight: 700, font: serif-display }
+  body:        { size: 30px, weight: 400, lineHeight: 1.65, font: serif-body }
+  kicker:      { size: 20px, weight: 700, letterSpacing: 4px, uppercase: true, font: sans }
 
 layout:
   canvas: 1080x1350px   # formato retrato Instagram (4:5)
@@ -36,3 +37,7 @@ layout:
 - Rodapé em todos os slides: paginação estilo revista (`01 — 07`) à esquerda + marquinha quadrada `accent` à direita, com uma linha fina acima.
 
 Para trocar o estilo visual completo, edite o objeto `TOKENS` em `scripts/generate.js` (cores, fontes, tamanhos).
+
+## Fontes
+
+As fontes (Playfair Display e Lora, subset latin — cobre acentuação em português) ficam em `scripts/fonts/*.woff2` e são embutidas como base64 diretamente no HTML gerado, então a geração de imagem funciona offline, sem precisar buscar fontes da internet.
