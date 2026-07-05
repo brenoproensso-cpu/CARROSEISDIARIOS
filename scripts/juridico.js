@@ -190,6 +190,43 @@ export function baseCss() {
   `;
 }
 
+// Overrides usados só no carrossel (um bloco sozinho por slide 1080x1350):
+// aumenta fontes/ícones/paddings e empilha banner/note na vertical, pra
+// preencher melhor o quadro em vez de sobrar espaço em branco.
+export function slideScaleCss() {
+  return `
+    .slide .headline-line { font-size: 118px; }
+    .slide .hero-icon { width: 320px; height: 320px; }
+    .slide .subtitle { font-size: 36px; }
+    .slide .law-pill { font-size: 30px; padding: 32px 36px; }
+
+    .slide .grid-card { padding: 40px; gap: 24px; min-height: 420px; justify-content: center; }
+    .slide .grid-icon { width: 84px; height: 84px; }
+    .slide .grid-title { font-size: 29px; }
+    .slide .grid-desc { font-size: 23px; }
+    .slide .grid-2col { gap: 32px; }
+
+    .slide .banner-block { flex-direction: column; text-align: center; padding: 64px; gap: 40px; min-height: 920px; justify-content: center; }
+    .slide .banner-icon { width: 120px; height: 120px; }
+    .slide .banner-rule { width: 80px; height: 2px; align-self: center; }
+    .slide .banner-content { flex: none; flex-direction: column; gap: 36px; }
+    .slide .banner-title, .slide .banner-desc { flex: none; }
+    .slide .banner-title .headline-line { font-size: 68px; }
+    .slide .banner-desc { font-size: 30px; }
+
+    .slide .note-block { flex-direction: column; text-align: center; padding: 64px; gap: 36px; min-height: 920px; justify-content: center; }
+    .slide .note-icon { width: 108px; height: 108px; }
+    .slide .note-text { font-size: 32px; }
+
+    .slide .footer-block { padding: 64px; min-height: 920px; display: flex; flex-direction: column; justify-content: center; }
+    .slide .footer-title { font-size: 84px; }
+    .slide .footer-rule { margin: 40px 0; }
+    .slide .footer-subtitle { font-size: 32px; margin-bottom: 32px; }
+    .slide .footer-handle { font-size: 28px; }
+    .slide .footer-handle svg { width: 36px; height: 36px; }
+  `;
+}
+
 export function renderHero(block) {
   return `
     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:24px;">

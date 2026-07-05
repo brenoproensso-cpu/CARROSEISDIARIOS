@@ -1,7 +1,7 @@
 import { chromium } from "playwright";
 import fs from "node:fs";
 import path from "node:path";
-import { baseCss, renderBlock } from "./juridico.js";
+import { baseCss, renderBlock, slideScaleCss } from "./juridico.js";
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
@@ -13,6 +13,7 @@ function buildSlideHtml(block, index, total) {
     <meta charset="utf-8" />
     <style>
       ${baseCss()}
+      ${slideScaleCss()}
       html, body { width: ${WIDTH}px; height: ${HEIGHT}px; }
       #canvas {
         width: ${WIDTH}px;
@@ -23,7 +24,7 @@ function buildSlideHtml(block, index, total) {
     </style>
   </head>
   <body>
-    <div id="canvas">
+    <div id="canvas" class="slide">
       <div class="page-pill">${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}</div>
       ${renderBlock(block)}
     </div>
