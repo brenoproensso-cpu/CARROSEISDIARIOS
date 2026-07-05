@@ -5,31 +5,22 @@ import path from "node:path";
 const WIDTH = 1080;
 const HEIGHT = 1350;
 
-// Tokens extraídos de DESIGN.md (Notion). Ver DESIGN.md para a fonte completa.
+// Tokens do estilo "editorial elegante": serifada, paleta sóbria (creme/tinta/terracota).
 const TOKENS = {
-  primary: "#5645d4",
-  brandNavy: "#0a1530",
-  ink: "#1a1a1a",
-  charcoal: "#37352f",
-  slate: "#5d5b54",
-  canvas: "#ffffff",
-  hairline: "#e5e3df",
-  onDark: "#ffffff",
-  tints: {
-    peach: "#ffe8d4",
-    rose: "#fde0ec",
-    mint: "#d9f3e1",
-    lavender: "#e6e0f5",
-    sky: "#dcecfa",
-    yellowBold: "#f9e79f",
-  },
-  font: "Inter, -apple-system, system-ui, 'Segoe UI', Helvetica, sans-serif",
-  radiusMd: "8px",
-  radiusLg: "12px",
-  radiusFull: "9999px",
+  cream: "#f7f4ee",
+  ink: "#1c1a17",
+  inkSoft: "#3a352c",
+  accent: "#a6462c",
+  creamMuted: "rgba(247, 244, 238, 0.7)",
+  rule: "#d8d2c4",
+  ruleOnDark: "rgba(247, 244, 238, 0.25)",
+  serif: "Georgia, 'Iowan Old Style', 'Times New Roman', ui-serif, serif",
+  sans: "'Helvetica Neue', Helvetica, Arial, sans-serif",
 };
 
-const TINT_ORDER = ["peach", "mint", "sky", "lavender", "rose"];
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
 
 function baseStyles() {
   return `
@@ -37,7 +28,6 @@ function baseStyles() {
     html, body {
       width: ${WIDTH}px;
       height: ${HEIGHT}px;
-      font-family: ${TOKENS.font};
     }
     .slide {
       width: ${WIDTH}px;
@@ -45,113 +35,145 @@ function baseStyles() {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 72px;
+      padding: 80px;
       position: relative;
+      overflow: hidden;
     }
-    .dots {
+    .frame {
+      position: absolute;
+      inset: 36px;
+      border: 1px solid var(--rule-color, ${TOKENS.rule});
+      pointer-events: none;
+    }
+    .kicker {
+      font-family: ${TOKENS.sans};
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: ${TOKENS.accent};
+    }
+    .kicker-rule {
+      width: 64px;
+      height: 2px;
+      background: ${TOKENS.accent};
+      margin-top: 16px;
+    }
+    .watermark {
+      position: absolute;
+      top: -60px;
+      right: -20px;
+      font-family: ${TOKENS.serif};
+      font-size: 460px;
+      font-weight: 700;
+      color: ${TOKENS.accent};
+      opacity: 0.08;
+      line-height: 1;
+      user-select: none;
+    }
+    .title-serif {
+      font-family: ${TOKENS.serif};
+      font-weight: 700;
+    }
+    .body-serif {
+      font-family: ${TOKENS.serif};
+      font-size: 32px;
+      line-height: 1.6;
+    }
+    .footer {
       display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: ${TOKENS.radiusFull};
-      background: rgba(0,0,0,0.15);
-    }
-    .dot.active { background: ${TOKENS.primary}; width: 28px; border-radius: ${TOKENS.radiusFull}; }
-    .dot.active.on-dark { background: ${TOKENS.onDark}; }
-    .dot.on-dark { background: rgba(255,255,255,0.3); }
-    .badge {
-      display: inline-flex;
       align-items: center;
-      align-self: flex-start;
-      background: ${TOKENS.primary};
-      color: ${TOKENS.onDark};
-      font-weight: 600;
-      font-size: 22px;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule-color, ${TOKENS.rule});
+      font-family: ${TOKENS.sans};
+      font-size: 18px;
       letter-spacing: 2px;
       text-transform: uppercase;
-      padding: 10px 22px;
-      border-radius: ${TOKENS.radiusFull};
     }
-    .number-badge {
-      width: 88px;
-      height: 88px;
-      border-radius: ${TOKENS.radiusFull};
-      background: ${TOKENS.primary};
-      color: ${TOKENS.onDark};
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      font-weight: 700;
+    .footer-mark {
+      width: 10px;
+      height: 10px;
+      background: ${TOKENS.accent};
     }
   `;
 }
 
-function coverSlideHtml(slide) {
+function coverSlideHtml(slide, total) {
   return `
-    <div class="slide" style="background:${TOKENS.brandNavy}; color:${TOKENS.onDark};">
-      <div class="badge">${slide.eyebrow ?? "CONFIRA"}</div>
+    <div class="slide" style="background:${TOKENS.ink}; color:${TOKENS.cream}; --rule-color:${TOKENS.ruleOnDark};">
+      <div class="frame"></div>
       <div>
-        <h1 style="font-size:64px; font-weight:700; line-height:1.1; letter-spacing:-1.5px;">
+        <div class="kicker">${slide.eyebrow ?? "confira"}</div>
+        <div class="kicker-rule"></div>
+      </div>
+      <div>
+        <h1 class="title-serif" style="font-size:76px; line-height:1.08; letter-spacing:-1px;">
           ${slide.title}
         </h1>
-        ${slide.subtitle ? `<p style="margin-top:24px; font-size:30px; color:rgba(255,255,255,0.75);">${slide.subtitle}</p>` : ""}
+        ${slide.subtitle ? `<p class="title-serif" style="margin-top:28px; font-size:28px; font-weight:400; font-style:italic; color:${TOKENS.creamMuted};">${slide.subtitle}</p>` : ""}
       </div>
-      <div class="dots">${dotsHtml(0, slide.__total, true)}</div>
+      <div class="footer" style="color:${TOKENS.creamMuted};">
+        <span>${pad(1)} — ${pad(total)}</span>
+        <span class="footer-mark"></span>
+      </div>
     </div>
   `;
 }
 
 function tipSlideHtml(slide, index, total) {
-  const tintKey = TINT_ORDER[(slide.number - 1) % TINT_ORDER.length];
-  const bg = TOKENS.tints[slide.tint] ?? TOKENS.tints[tintKey];
   return `
-    <div class="slide" style="background:${bg}; color:${TOKENS.charcoal};">
-      <div class="number-badge">${slide.number}</div>
+    <div class="slide" style="background:${TOKENS.cream}; color:${TOKENS.ink};">
+      <div class="frame"></div>
+      <div class="watermark">${pad(slide.number)}</div>
       <div>
-        <h2 style="font-size:40px; font-weight:600; line-height:1.2; margin-bottom:24px;">
+        <div class="kicker">Dica nº ${pad(slide.number)}</div>
+        <div class="kicker-rule"></div>
+      </div>
+      <div>
+        <h2 class="title-serif" style="font-size:46px; line-height:1.2; margin-bottom:28px;">
           ${slide.title}
         </h2>
-        <p style="font-size:30px; line-height:1.5; color:${TOKENS.charcoal};">
+        <p class="body-serif" style="color:${TOKENS.inkSoft};">
           ${slide.body}
         </p>
       </div>
-      <div class="dots">${dotsHtml(index, total, false)}</div>
+      <div class="footer" style="color:${TOKENS.inkSoft};">
+        <span>${pad(index + 1)} — ${pad(total)}</span>
+        <span class="footer-mark"></span>
+      </div>
     </div>
   `;
 }
 
 function ctaSlideHtml(slide, index, total) {
   return `
-    <div class="slide" style="background:${TOKENS.tints.yellowBold}; color:${TOKENS.charcoal};">
-      <div class="badge" style="background:${TOKENS.ink};">${slide.handle ?? ""}</div>
+    <div class="slide" style="background:${TOKENS.ink}; color:${TOKENS.cream}; --rule-color:${TOKENS.ruleOnDark};">
+      <div class="frame"></div>
       <div>
-        <h2 style="font-size:48px; font-weight:700; line-height:1.2; margin-bottom:24px;">
+        <div class="kicker">${slide.handle ?? "obrigado por ler"}</div>
+        <div class="kicker-rule"></div>
+      </div>
+      <div>
+        <h2 class="title-serif" style="font-size:52px; line-height:1.2; margin-bottom:28px;">
           ${slide.title}
         </h2>
-        <p style="font-size:30px; line-height:1.5;">
+        <p class="body-serif" style="color:${TOKENS.creamMuted};">
           ${slide.body}
         </p>
       </div>
-      <div class="dots">${dotsHtml(index, total, false)}</div>
+      <div class="footer" style="color:${TOKENS.creamMuted};">
+        <span>${pad(index + 1)} — ${pad(total)}</span>
+        <span class="footer-mark"></span>
+      </div>
     </div>
   `;
-}
-
-function dotsHtml(activeIndex, total, onDark) {
-  const cls = onDark ? "on-dark" : "";
-  return Array.from({ length: total })
-    .map((_, i) => `<span class="dot ${cls} ${i === activeIndex ? "active" : ""}"></span>`)
-    .join("");
 }
 
 function renderSlide(slide, index, total, handle) {
   let body;
   if (slide.type === "cover") {
-    body = coverSlideHtml({ ...slide, __total: total });
+    body = coverSlideHtml(slide, total);
   } else if (slide.type === "cta") {
     body = ctaSlideHtml({ ...slide, handle }, index, total);
   } else {
